@@ -52,7 +52,7 @@ Based on the current state of their todos:
 
 ### Step 4: Compose the Email
 
-Format a clean, scannable email with:
+Send the email as **styled HTML** using the `html` field in AgentMail's `send_message`. Use inline CSS for styling. The email should feel clean, modern, and easy to scan on mobile.
 
 **Subject:** Daily Plan - [date]
 
@@ -62,9 +62,18 @@ Format a clean, scannable email with:
 - **Tomorrow's Focus** (numbered list of 3-5 tasks with context)
 - **Heads Up** (any upcoming deadlines or concerns)
 
+**HTML guidelines:**
+- Use a max-width container (600px) with comfortable padding
+- Use a clean sans-serif font (system-ui, -apple-system, sans-serif)
+- Use clear section headers with a subtle bottom border
+- Use colored accent bars or badges for priority/urgency (e.g. red for overdue, amber for warnings, green for wins)
+- Use a light background (#f9fafb) with white content cards
+- Keep it responsive — avoid fixed widths on inner elements
+- Use bullet points and numbered lists, not walls of text
+
 Send the email using AgentMail:
 1. First, list your inboxes to see if one already exists. If not, create one.
-2. Use `send_message` to send the email to the user's address (provided in the prompt).
+2. Use `send_message` with ONLY the `html` field to send the styled email. Do NOT include a `text` or `body` field — only `html`, `to`, and `subject`.
 
 ## Rules
 
