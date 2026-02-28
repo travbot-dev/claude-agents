@@ -3,12 +3,12 @@
 #
 # Permissions granted:
 #   - WebSearch (for context on tasks if needed)
-#   - MCP: today-api (read todos, create todos)
+#   - Bash: curl (for Today REST API calls)
 #   - MCP: agentmail (send daily summary email)
 #
 # Permissions denied:
 #   - File read/write (not needed)
-#   - Bash (not needed - all external access via MCP)
+#   - Bash: anything besides curl
 #
 # Usage:
 #   ./agents/daily-planner.sh              # Run normally
@@ -27,16 +27,15 @@ log_info "Starting daily planner for $TODAY"
 run_agent \
   --allowed-tools \
     "WebSearch" \
-    "mcp__today-api__*" \
+    "Bash(curl *)" \
     "mcp__agentmail__send_message" \
     "mcp__agentmail__create_inbox" \
     "mcp__agentmail__list_inboxes" \
   --disallowed-tools \
-    "Bash" \
     "Edit" \
     "Write" \
     "Read" \
-  --mcp-config "$SCRIPT_DIR/../mcp-configs/todo-and-email.json" \
+  --mcp-config "$SCRIPT_DIR/../mcp-configs/email-only.json" \
   --append-system-prompt-file "$SCRIPT_DIR/../prompts/daily-planner.md" \
   --max-turns 15 \
   --max-budget 1.00 \
@@ -44,7 +43,9 @@ run_agent \
   --output-format text \
   "$@" \
   --prompt "Today is $TODAY. Tomorrow is $TOMORROW.
-The user's email address is: ${EMAIL_TO}
+The user email address is: ${EMAIL_TO}
+Today API base URL: ${TODAY_API_URL}
+Today API auth token: ${TODAY_API_TOKEN}
 
 Review my todo activity from the past week, give me honest feedback on my productivity patterns, plan my day for tomorrow, and email me the summary.
 

@@ -3,7 +3,7 @@
     "today-api": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@anthropic/mcp-proxy", "--endpoint", "${TODAY_API_URL}/mcp"],
+      "args": ["-y", "@anthropic/mcp-proxy", "--endpoint", "https://today.travserve.net/mcp"],
       "env": {
         "API_TOKEN": "${TODAY_API_TOKEN}"
       }
