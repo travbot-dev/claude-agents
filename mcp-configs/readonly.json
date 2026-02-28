@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "today-api": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-proxy", "--endpoint", "${TODAY_API_URL}/mcp"],
+      "env": {
+        "API_TOKEN": "${TODAY_API_TOKEN}"
+      }
+    }
+  }
+}

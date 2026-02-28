@@ -1,0 +1,12 @@
+# Example crontab entries for automated agents
+# Install with: crontab crontab.example
+# Edit path to match your installation
+
+# Daily planner - runs every evening at 9 PM
+0 21 * * * /path/to/claude-agents/run-agent.sh daily-planner >> /var/log/claude-agents/daily.log 2>&1
+
+# Weekly review - runs every Friday at 5 PM
+0 17 * * 5 /path/to/claude-agents/run-agent.sh weekly-review >> /var/log/claude-agents/weekly.log 2>&1
+
+# Code digest - runs every day at 6 PM
+0 18 * * * /path/to/claude-agents/run-agent.sh code-digest /path/to/your/repo >> /var/log/claude-agents/code-digest.log 2>&1
