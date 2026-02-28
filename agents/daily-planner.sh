@@ -27,7 +27,7 @@ log_info "Starting daily planner for $TODAY"
 run_agent \
   --allowed-tools \
     "WebSearch" \
-    "Bash(curl *)" \
+    "Bash(curl *${TODAY_API_URL}*)" \
     "mcp__agentmail__send_message" \
     "mcp__agentmail__create_inbox" \
     "mcp__agentmail__list_inboxes" \
