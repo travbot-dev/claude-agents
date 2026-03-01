@@ -37,12 +37,12 @@ x_api_get() {
 
   # Collect all parameters (OAuth + query string)
   local -a params=()
-  params+=("oauth_consumer_key=$X_CONSUMER_KEY")
-  params+=("oauth_nonce=$oauth_nonce")
-  params+=("oauth_signature_method=HMAC-SHA1")
-  params+=("oauth_timestamp=$oauth_timestamp")
-  params+=("oauth_token=$X_ACCESS_TOKEN")
-  params+=("oauth_version=1.0")
+  params+=("oauth_consumer_key=$(_pct_encode "$X_CONSUMER_KEY")")
+  params+=("oauth_nonce=$(_pct_encode "$oauth_nonce")")
+  params+=("oauth_signature_method=$(_pct_encode "HMAC-SHA1")")
+  params+=("oauth_timestamp=$(_pct_encode "$oauth_timestamp")")
+  params+=("oauth_token=$(_pct_encode "$X_ACCESS_TOKEN")")
+  params+=("oauth_version=$(_pct_encode "1.0")")
 
   # Parse query string parameters (percent-encode keys and values per RFC 5849)
   if [ -n "$query_string" ]; then
@@ -88,5 +88,5 @@ x_api_get() {
   auth_header+="oauth_token=\"$(_pct_encode "$X_ACCESS_TOKEN")\", "
   auth_header+="oauth_version=\"1.0\""
 
-  curl -s -H "Authorization: $auth_header" "$url"
+  curl -sf -H "Authorization: $auth_header" "$url"
 }

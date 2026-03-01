@@ -132,16 +132,18 @@ fi
 x_personal="{}"
 x_conference="{}"
 
-if [ -n "${X_CONSUMER_KEY_PERSONAL:-}" ] && [ -n "${X_ACCESS_TOKEN_PERSONAL:-}" ]; then
+if [ -n "${X_CONSUMER_KEY_PERSONAL:-}" ] && [ -n "${X_CONSUMER_SECRET_PERSONAL:-}" ] && \
+   [ -n "${X_ACCESS_TOKEN_PERSONAL:-}" ] && [ -n "${X_ACCESS_TOKEN_SECRET_PERSONAL:-}" ]; then
   x_personal=$(fetch_x "personal" "$X_CONSUMER_KEY_PERSONAL" "$X_CONSUMER_SECRET_PERSONAL" "$X_ACCESS_TOKEN_PERSONAL" "$X_ACCESS_TOKEN_SECRET_PERSONAL")
 else
-  log_warn "X personal credentials not set, skipping"
+  log_warn "X personal credentials incomplete, skipping"
 fi
 
-if [ -n "${X_CONSUMER_KEY_CONFERENCE:-}" ] && [ -n "${X_ACCESS_TOKEN_CONFERENCE:-}" ]; then
+if [ -n "${X_CONSUMER_KEY_CONFERENCE:-}" ] && [ -n "${X_CONSUMER_SECRET_CONFERENCE:-}" ] && \
+   [ -n "${X_ACCESS_TOKEN_CONFERENCE:-}" ] && [ -n "${X_ACCESS_TOKEN_SECRET_CONFERENCE:-}" ]; then
   x_conference=$(fetch_x "conference" "$X_CONSUMER_KEY_CONFERENCE" "$X_CONSUMER_SECRET_CONFERENCE" "$X_ACCESS_TOKEN_CONFERENCE" "$X_ACCESS_TOKEN_SECRET_CONFERENCE")
 else
-  log_warn "X conference credentials not set, skipping"
+  log_warn "X conference credentials incomplete, skipping"
 fi
 
 # --- Load historical metrics ---
@@ -160,12 +162,12 @@ CONFERENCE_DATE="${CONFERENCE_DATE:-TBD}"
 
 # Write raw data to temp files for Python to read (too large for argv)
 RAW_DIR=$(mktemp -d)
-trap "rm -rf $RAW_DIR" EXIT
-echo "$bsky_personal" > "$RAW_DIR/bsky_p.json"
-echo "$bsky_conference" > "$RAW_DIR/bsky_c.json"
-echo "$x_personal" > "$RAW_DIR/x_p.json"
-echo "$x_conference" > "$RAW_DIR/x_c.json"
-echo "$historical_metrics" > "$RAW_DIR/hist.json"
+trap 'rm -rf "$RAW_DIR"' EXIT
+printf '%s\n' "$bsky_personal" > "$RAW_DIR/bsky_p.json"
+printf '%s\n' "$bsky_conference" > "$RAW_DIR/bsky_c.json"
+printf '%s\n' "$x_personal" > "$RAW_DIR/x_p.json"
+printf '%s\n' "$x_conference" > "$RAW_DIR/x_c.json"
+printf '%s\n' "$historical_metrics" > "$RAW_DIR/hist.json"
 
 python3 - "$RAW_DIR" "$FETCH_FILE" "$TODAY" "$CONFERENCE_NAME" "$CONFERENCE_DATE" << 'PYEOF'
 import json, sys, os
