@@ -42,10 +42,10 @@ Look for patterns:
 
 Be specific. Reference actual task names and dates.
 
-### Step 3: Plan Tomorrow
+### Step 3: Plan Today
 
 Based on the current state of their todos:
-1. Pick the top 3-5 tasks they should focus on tomorrow
+1. Pick the top 3-5 tasks they should focus on today
 2. For each task, add a brief note about context or approach
 3. Flag any blockers or dependencies
 4. If you notice gaps (e.g. a project needs a task that doesn't exist), create it
@@ -59,7 +59,7 @@ Send the email as **styled HTML** using the `html` field in AgentMail's `send_me
 **Sections:**
 - **Week in Review** (2-3 bullet points on activity)
 - **Feedback** (honest observations, 2-4 bullet points)
-- **Tomorrow's Focus** (numbered list of 3-5 tasks with context)
+- **Today's Focus** (numbered list of 3-5 tasks with context)
 - **Heads Up** (any upcoming deadlines or concerns)
 
 **HTML guidelines:**
